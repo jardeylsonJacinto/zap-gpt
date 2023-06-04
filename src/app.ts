@@ -13,10 +13,11 @@ app.use(cors());
 
 dotenv.config();
 
-app.post('chat/send', async (req, res) => {
+app.post('/chat/send', async (req, res) => {
   const { to, body } = req.body;
   try{
-    await sendWhatsappMessage(to, body);
+    const result = await sendWhatsappMessage(`whatsapp${to}`, body);
+    console.log(result);
     res.status(200).json({ success: true, body})
   }catch(err){
     res.status(500).json({ success: false, err});
