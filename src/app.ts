@@ -7,7 +7,7 @@ import { getOpenAICompletion } from "./services/openai";
 
 const app = express();
 
-app.use(bodyParser.urlencoded());
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cors());
 
@@ -31,8 +31,12 @@ app.post("/chat/receive", async (req, res) => {
   try {
     const completion = await getOpenAICompletion(messageBody);
 
-    await sendWhatsappMessage(to, completion);
-    res.status(200).json({ success: true, messageBody });
+    if (completion) {
+      await sendWhatsappMessage(to, completion);
+      res.status(200).json({ success: true, messageBody });
+    } else {
+      throw new Error("OpenAI completion is empty.");
+    }
   } catch (error) {
     res.status(500).json({ success: false, error });
   }
