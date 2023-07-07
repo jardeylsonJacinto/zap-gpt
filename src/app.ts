@@ -31,12 +31,8 @@ app.post("/chat/receive", async (req, res) => {
   try {
     const completion = await getOpenAICompletion(messageBody);
 
-    if (completion) {
-      await sendWhatsappMessage(to, completion);
-      res.status(200).json({ success: true, messageBody });
-    } else {
-      throw new Error("OpenAI completion is empty.");
-    }
+    await sendWhatsappMessage(to, completion);
+    res.status(200).json({ success: true, messageBody });
   } catch (error) {
     res.status(500).json({ success: false, error });
   }
