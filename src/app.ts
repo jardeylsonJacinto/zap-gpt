@@ -2,8 +2,8 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import { sendWhatsappMessage } from './services/twilio';
-import dotenv from 'dotenv';
 import { getOpenAICompletion } from './services/openai';
+import dotenv from 'dotenv';
 
 const app = express();
 const port = process.env.PORT || 3000;
